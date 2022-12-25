@@ -1,62 +1,31 @@
 from typing import *
 from dataclasses import dataclass
 
-T = TypeVar('T')
-
 class V(tuple):
 
-    def __new__(cls, x: T, y: T) -> Self:
+    def __new__(cls, x, y) -> Self:
         return super().__new__(cls, (x,y))
 
     @property
-    def x(self) -> T:
+    def x(self):
         return self[0]
 
     @property
-    def y(self) -> T:
+    def y(self):
         return self[1]
 
-    def __add__(self, other: Self | T) -> Self:
-        if isinstance(other, V):
-            return V(self.x + other.x, self.y + other.y)
-        else:
-            return V(self.x + other, self.y + other)
+    def __add__(self: Self, other: Self) -> Self:
+        return V(self.x + other.x, self.y + other.y)
 
-    def __sub__(self, other: Self | T) -> Self:
-        if isinstance(other, V):
-            return V(self.x - other.x, self.y - other.y)
-        else:
-            return V(self.x - other, self.y - other)
+    def __sub__(self: Self, other: Self) -> Self:
+        return V(self.x - other.x, self.y - other.y)
 
-    def __mul__(self, other: Self | T) -> Self:
-        if isinstance(other, V):
-            return V(self.x * other.x, self.y * other.y)
-        else:
-            return V(self.x * other, self.y * other)
-
-    def __lt__(self, other: Self | T) -> bool:
-        if isinstance(other, V):
-            return self.x < other.x and self.y < other.y
-        else:
-            return self.x < other and self.y < other
-
-    def __le__(self, other: Self | T) -> bool:
-        if isinstance(other, V):
-            return self.x <= other.x and self.y <= other.y
-        else:
-            return self.x <= other and self.y <= other
-
-    def __gt__(self, other: Self | T) -> bool:
-        if isinstance(other, V):
-            return self.x > other.x and self.y > other.y
-        else:
-            return self.x > other and self.y > other
-
-    def __ge__(self, other: Self | T) -> bool:
-        if isinstance(other, V):
-            return self.x >= other.x and self.y >= other.y
-        else:
-            return self.x >= other and self.y >= other
+    def __mul__(self: Self, other) -> Self:
+        match other:
+            case V(x,y):
+                return V(self.x * x, self.y * y)
+            case c:
+                return V(self.x * c, self.y * c)
 
     '''
     Neighbors
@@ -141,8 +110,6 @@ class V(tuple):
 
     __match_args__ = ('x', 'y')
 
-
-
 class V3(tuple):
 
     def __new__(cls, x, y, z) -> Self:
@@ -210,7 +177,7 @@ class V3(tuple):
         return V3(self.x-1, self.y, self.z-1)
 
     def neigh_hor(self) -> list[Self]:
-        return [self.l(), self.r(), self.f(), self.b()]
+        return [self.l(), self.r()]
 
     def neigh_vert(self) -> list[Self]:
         return [self.u(), self.d()]
@@ -220,5 +187,3 @@ class V3(tuple):
 
     def neigh_diag(self) -> list[Self]:
         return [self.ur(), self.dr(), self.dl(), self.ul()]
-
-    __match_args__ = ('x', 'y', 'z')

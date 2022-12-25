@@ -19,7 +19,8 @@ for x in range(x_min, x_max + 1):
     for y in range(y_min, y_max + 1):
         for z in range(z_min, z_max + 1):
             p = V3(x,y,z)
-            s += sum(n in ps for n in p.neigh_straight())
+            if p not in ps:
+                s += sum(n in ps for n in p.neigh_straight())
 
 print(s)
 

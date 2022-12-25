@@ -7,5 +7,3 @@ from .algorithms import *
 
 from collections import *
 from queue import Queue
-from functools import *
-from itertools import *

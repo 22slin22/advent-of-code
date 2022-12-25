@@ -23,6 +23,8 @@ def bfs_find(start: T, succ: Callable[[T], Iterable[T]], goal: T | Callable[[T],
     while not queue.empty():
         cur = queue.get()
 
+        # print(cur)
+
         for s in succ(cur):
             if s not in pred:
                 pred[s] = cur
